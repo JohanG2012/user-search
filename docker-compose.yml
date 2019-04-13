@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  database:
+    image: mongo 
+    container_name: user-db
+    ports:
+      - '27017:27017'
+    volumes:
+      - data-volume:/data/db
+
+volumes:
+  ? data-volume
