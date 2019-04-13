@@ -27,6 +27,8 @@
     "@types/node": "^11.13.4",
     "apidoc": "^0.17.7",
     "serve": "^11.0.0",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3"
   }
 }
