@@ -4,8 +4,13 @@ interface IHttpResponseHeaders {
   'Content-Type': string;
 }
 
-export interface IHttpResponse {
+interface IHttpResponseContent {
   status: HttpStatusCode;
-  body?: string;
-  headers?: IHttpResponseHeaders;
+  body: string;
+  headers: IHttpResponseHeaders;
 }
+interface IHttpResponseNoContent {
+  status: HttpStatusCode;
+}
+
+export type IHttpResponse = IHttpResponseNoContent | IHttpResponseContent;
