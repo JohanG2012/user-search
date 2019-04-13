@@ -9,7 +9,12 @@
     "start:host": "func start",
     "start": "npm run start:host & npm run watch",
     "build:production": "npm run prestart && npm prune --production",
-    "test": "echo \"No tests yet...\""
+    "test": "echo \"No tests yet...\"",
+    "serve:apidoc": "npx apidoc -i ./ -o apidoc/ -e node_modules/ -e shared/ && serve apidoc"
+  },
+  "apidoc": {
+    "title": "User-search API Documentation",
+    "url": "http://localhost:3030"
   },
   "dependencies": {},
   "devDependencies": {
