@@ -17,7 +17,9 @@
     "title": "User-search API Documentation",
     "url": "http://localhost:3030"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "^5.5.1"
+  },
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta2",
     "@types/jest": "^24.0.11",
