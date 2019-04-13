@@ -46,7 +46,8 @@
       "**/*.spec.ts"
     ],
     "moduleFileExtensions": [
-      "ts"
+      "ts",
+      "js"
     ],
     "cache": false
   }
