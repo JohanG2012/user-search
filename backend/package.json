@@ -29,6 +29,7 @@
     "@types/mongoose": "^5.3.26",
     "@types/node": "^11.13.4",
     "apidoc": "^0.17.7",
+    "jest": "^24.7.1",
     "mongodb-memory-server": "^5.0.2",
     "prettier": "^1.17.0",
     "serve": "^11.0.0",
