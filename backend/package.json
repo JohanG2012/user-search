@@ -6,6 +6,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "prestart": "npm run build && func extensions install",
+    "lint:tslint": "npx tslint -c tslint.json './**/*.ts'",
     "start:host": "func start",
     "start": "npm run start:host & npm run watch",
     "build:production": "npm run prestart && npm prune --production",
