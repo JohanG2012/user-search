@@ -18,7 +18,8 @@
     "url": "http://localhost:3030"
   },
   "dependencies": {
-    "mongoose": "^5.5.1"
+    "mongoose": "^5.5.1",
+    "ts-jest": "^24.0.2"
   },
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta2",
