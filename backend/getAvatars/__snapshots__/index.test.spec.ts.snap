@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GET /api/v1/avatars without querystrings should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"success\\",\\"data\\":[\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\",\\"https://randomuser.me/api/portraits/thumb/men/36.jpg\\"]}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 200,
+  },
+}
+`;

@@ -1,22 +1,26 @@
 {
-  "name": "backend",
+  "name": "user-search-backend",
   "description": "",
   "version": "0.1.0",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "prestart": "npm run build && func extensions install",
+    "lint:tslint": "npx tslint -c tslint.json './**/*.ts'",
     "start:host": "func start",
-    "start": "npm run start:host & npm run watch",
+    "start": "NODE_ENV=DEVELOPMENT npm run start:host & npm run watch",
     "build:production": "npm run prestart && npm prune --production",
-    "test": "echo \"No tests yet...\"",
+    "test": "NODE_ENV=TESTING jest --coverage --colors --verbose",
     "serve:apidoc": "npx apidoc -i ./ -o apidoc/ -e node_modules/ -e shared/ && serve apidoc"
   },
   "apidoc": {
     "title": "User-search API Documentation",
     "url": "http://localhost:3030"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "^5.5.1",
+    "ts-jest": "^24.0.2"
+  },
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta2",
     "@types/jest": "^24.0.11",
@@ -26,10 +30,25 @@
     "@types/mongoose": "^5.3.26",
     "@types/node": "^11.13.4",
     "apidoc": "^0.17.7",
+    "jest": "^24.7.1",
+    "mongodb-memory-server": "^5.0.2",
     "prettier": "^1.17.0",
     "serve": "^11.0.0",
     "tslint": "^5.15.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.spec.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "cache": false
   }
 }
