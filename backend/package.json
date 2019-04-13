@@ -18,6 +18,8 @@
     "url": "http://localhost:3030"
   },
   "dependencies": {
+    "joi": "^14.3.1",
+    "joi-objectid": "^2.0.0",
     "mongoose": "^5.5.1",
     "ts-jest": "^24.0.2"
   },
