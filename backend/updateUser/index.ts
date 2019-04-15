@@ -1,21 +1,81 @@
-import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import * as flatten from 'flat';
+import User from '../shared/models/User';
+import { connect } from '../shared/models';
+import { validateBody, validateParams } from './apiSchema';
+import {
+  VALIDATION_ERROR,
+  UPDATED,
+  NOT_FOUND,
+  INTERNAL_ERROR,
+  DATABASE_CONNECTION_ERROR,
+} from '../shared/utils/responseTemplates';
+import { stripObjProps } from '../shared/utils/helpers';
+const DATABASE = process.env.LOCAL_MONGODB_URI;
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-    context.log('HTTP trigger function processed a request.');
-    const name = (req.query.name || (req.body && req.body.name));
+/**
+ *
+ * @api {patch} /api/v1/user/:id Update
+ * @apiVersion 1.0.0
+ * @apiName userTodo
+ * @apiGroup User
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -v -X PATCH -H "Content-Type: application/json" -d '{ "name": { "title": "mr"}}' http://localhost:3030/api/v1/user/5ca9fe78b9ec54647f5ef68f
+ *
+ * @apiSuccess (204) {Empty} Empty No content
+ * @apiError (Error responses) {String} message Error message
+ * @apiError (Error responses) {String} errorCode Code to find more information in the docs.
+ * @apiError (Error responses) {String} url Documentation url to find more information
+ *
+ * @apiSuccessExample {JSON} Success-Response:
+ * status: 204
+ *
+ * @apiErrorExample {JSON} Error-Response:
+ *  {
+ *    "message":"not a valid id",
+ *    "errorCode":2000,
+ *    "field":"id"
+ * }
+ */
+const updateUser: AzureFunction = async (context: Context, req: HttpRequest): Promise<void> => {
+  const { params, body = {} } = req;
+  const { id } = params;
 
-    if (name) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "Hello " + (req.query.name || req.body.name)
-        };
+  const notAllowedUpdateFields = ['_id'];
+  const [stripedBody] = stripObjProps([body], notAllowedUpdateFields);
+
+  const { error: bodyValidationFailed } = validateBody(stripedBody);
+  const { error: paramsValidationFailed } = validateParams(params);
+  const validationFailed = bodyValidationFailed || paramsValidationFailed;
+
+  if (validationFailed) {
+    context.res = VALIDATION_ERROR(validationFailed);
+    context.done();
+    return;
+  }
+
+  await connect(
+    DATABASE,
+    () => {
+      context.res = DATABASE_CONNECTION_ERROR();
+      context.done();
+    },
+  );
+
+  try {
+    const user = await User.findByIdAndUpdate(id, flatten(stripedBody));
+    if (user) {
+      context.res = UPDATED();
+    } else {
+      context.res = NOT_FOUND();
     }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
-    }
+  } catch (e) {
+    // Check for known errors above this line E.g duplication error.
+    // Unknown error below
+    context.res = INTERNAL_ERROR(e, context);
+  }
+  context.done();
 };
 
-export default httpTrigger;
+export default updateUser;
