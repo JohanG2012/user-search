@@ -1,6 +1,7 @@
 
 
 - Add local-settings instructions
+- add docs instructions
 
 Setup Database:
 * run `docker-compose up`

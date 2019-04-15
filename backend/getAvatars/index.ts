@@ -56,12 +56,11 @@ const getAvatars: AzureFunction = async (context: Context, req: HttpRequest): Pr
 
   try {
     const thumbnails = await User.find()
-      .select({ _id: 0, 'picture.thumbnail': 1 })
+      .select({ picture: 1 })
       .limit(10);
-    const selected = thumbnails.map(doc => doc.picture.thumbnail);
-    context.res = OK(selected);
+    context.res = OK(thumbnails);
   } catch (e) {
-    // Check for known errors above this line.
+    // Check for known errors above this line E.g duplication error.
     // Unknown error below
     context.res = INTERNAL_ERROR(e, context);
   }
