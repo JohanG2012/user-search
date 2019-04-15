@@ -10,7 +10,7 @@
     "start:host": "func start",
     "start": "NODE_ENV=DEVELOPMENT npm run start:host & npm run watch",
     "build:production": "npm run prestart && npm prune --production",
-    "test": "NODE_ENV=TESTING jest --coverage --colors --verbose",
+    "test": "NODE_ENV=TESTING jest --coverage --colors --verbose --env=node",
     "serve:apidoc": "npx apidoc -i ./ -o apidoc/ -e node_modules/ -e shared/ && serve apidoc"
   },
   "apidoc": {
