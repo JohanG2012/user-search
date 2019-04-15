@@ -7,3 +7,11 @@ export const stripObjProps = (inputArr: object[], stripArr: string[]): object[] 
     return newObj;
   });
 };
+
+
+export const getRequestedFields = (fields: string) => {
+  const fieldsArr = fields.split(',');
+  const requestedFields = { _id: 0 };
+  fieldsArr.forEach(field => (requestedFields[field] = 1));
+  return requestedFields;
+};
