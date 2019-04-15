@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GET /api/v1/avatars close down database connection should match snapshot 1`] = `
+exports[`GET /api/v1/avatars trigger server error - close down database connection should match snapshot 1`] = `
 Object {
   "done": [MockFunction] {
     "calls": Array [
