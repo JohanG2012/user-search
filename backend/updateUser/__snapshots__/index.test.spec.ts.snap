@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PATCH /api/v1/user/:id trigger server error - close down database connection should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction] {
+    "calls": Array [
+      Array [
+        "topology was destroyed",
+      ],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "res": Object {
+    "body": "{\\"status\\":\\"error\\",\\"message\\":\\"Oops! Something unknown happend. Please open an issues with intstructions on how to reproduce this response.\\",\\"errorCode\\":2003}",
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "status": 500,
+  },
+}
+`;
+
+exports[`PATCH /api/v1/user/:id update an user should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "status": 204,
+  },
+}
+`;
+
+exports[`PATCH /api/v1/user/:id validation with empty body should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"failed\\",\\"message\\":\\"\\\\\\"value\\\\\\" must contain at least one of [permission, picture.large, picture.medium, picture.thumbnail, name.title, name.first, name.last]\\",\\"errorCode\\":2002}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 400,
+  },
+}
+`;
+
+exports[`PATCH /api/v1/user/:id validation with forbidden fields only should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"failed\\",\\"message\\":\\"\\\\\\"value\\\\\\" must contain at least one of [permission, picture.large, picture.medium, picture.thumbnail, name.title, name.first, name.last]\\",\\"errorCode\\":2002}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 400,
+  },
+}
+`;
+
+exports[`PATCH /api/v1/user/:id validation with invalid id should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"failed\\",\\"message\\":\\"\\\\\\"value\\\\\\" must contain at least one of [permission, picture.large, picture.medium, picture.thumbnail, name.title, name.first, name.last]\\",\\"errorCode\\":2002}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 400,
+  },
+}
+`;
+
+exports[`PATCH /api/v1/user/:id validation with non existing _id should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"failed\\",\\"message\\":\\"Could not find requested resource.\\"}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 404,
+  },
+}
+`;

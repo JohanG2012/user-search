@@ -35,10 +35,10 @@ const DATABASE = process.env.LOCAL_MONGODB_URI;
  *     curl -v -X GET http://localhost:3030/api/v1/users?search=justin
  *
  * @apiExample {curl} Example usage - Partial:
- *     curl -v -X GET http://localhost:3030/api/v1/todos?fields=firstname,lastname
+ *     curl -v -X GET http://localhost:3030/api/v1/users?fields=firstname,lastname
  *
  * @apiExample {curl} Example usage - Filter:
- *     curl -v -X GET http://localhost:3030/api/v1/todos?name.title=mr
+ *     curl -v -X GET http://localhost:3030/api/v1/users?name.title=mr
  *
  * @apiSuccess (200) {Array} data Array of User Objects
  * @apiSuccess (200) {String} next Cursor for next document in pagination

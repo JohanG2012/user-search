@@ -166,7 +166,7 @@ describe('GET /api/v1/users', () => {
       expect(parsed.data[0]).toMatchObject(ref[2]);
     });
   });
-  describe('close down database connection', () => {
+  describe('trigger server error - close down database connection', () => {
     beforeEach(async () => {
       mongoose.disconnect();
       mongoServer.stop();

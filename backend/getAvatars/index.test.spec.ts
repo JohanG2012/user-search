@@ -80,7 +80,7 @@ describe('GET /api/v1/avatars', () => {
     });
   });
 
-  describe('close down database connection', () => {
+  describe('trigger server error - close down database connection', () => {
     beforeEach(async () => {
       mongoose.disconnect();
       mongoServer.stop();

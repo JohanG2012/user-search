@@ -1,6 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GET /api/v1/users close down database connection should match snapshot 1`] = `
+exports[`GET /api/v1/users search for 'justine faure' should match snapshot 1`] = `
+Object {
+  "done": [MockFunction] {
+    "calls": Array [
+      Array [],
+    ],
+    "results": Array [
+      Object {
+        "type": "return",
+        "value": undefined,
+      },
+    ],
+  },
+  "log": [MockFunction],
+  "res": Object {
+    "body": "{\\"status\\":\\"success\\",\\"data\\":[{\\"name\\":{\\"title\\":\\"madame\\",\\"first\\":\\"justine\\",\\"last\\":\\"faure\\"},\\"picture\\":{\\"large\\":\\"https://randomuser.me/api/portraits/women/79.jpg\\",\\"medium\\":\\"https://randomuser.me/api/portraits/med/women/79.jpg\\",\\"thumbnail\\":\\"https://randomuser.me/api/portraits/thumb/women/79.jpg\\"}}]}",
+    "headers": Object {
+      "Content-Type": "applicaiton/json",
+    },
+    "status": 200,
+  },
+}
+`;
+
+exports[`GET /api/v1/users trigger server error - close down database connection should match snapshot 1`] = `
 Object {
   "done": [MockFunction] {
     "calls": Array [
@@ -32,30 +56,6 @@ Object {
       "Content-Type": "application/json",
     },
     "status": 500,
-  },
-}
-`;
-
-exports[`GET /api/v1/users search for 'justine faure' should match snapshot 1`] = `
-Object {
-  "done": [MockFunction] {
-    "calls": Array [
-      Array [],
-    ],
-    "results": Array [
-      Object {
-        "type": "return",
-        "value": undefined,
-      },
-    ],
-  },
-  "log": [MockFunction],
-  "res": Object {
-    "body": "{\\"status\\":\\"success\\",\\"data\\":[{\\"name\\":{\\"title\\":\\"madame\\",\\"first\\":\\"justine\\",\\"last\\":\\"faure\\"},\\"picture\\":{\\"large\\":\\"https://randomuser.me/api/portraits/women/79.jpg\\",\\"medium\\":\\"https://randomuser.me/api/portraits/med/women/79.jpg\\",\\"thumbnail\\":\\"https://randomuser.me/api/portraits/thumb/women/79.jpg\\"}}]}",
-    "headers": Object {
-      "Content-Type": "applicaiton/json",
-    },
-    "status": 200,
   },
 }
 `;
