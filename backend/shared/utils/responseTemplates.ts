@@ -20,8 +20,30 @@ export const DATABASE_CONNECTION_ERROR = (): IHttpResponse => {
   return response;
 };
 
-export const VALIDATION_ERROR = () => {
-  // TODO: Implement, use code 2002
+export const VALIDATION_ERROR = (JoiError: any) => {
+  const {
+    details: [
+      {
+        message: validationErr,
+        path: [field],
+      },
+    ],
+  } = JoiError;
+  const body: IBody = {
+    status: 'failed',
+    field,
+    message: validationErr,
+    errorCode: 2002,
+  };
+
+  const response: IHttpResponse = {
+    status: HttpStatusCode.BadRequest,
+    headers: {
+      'Content-Type': 'applicaiton/json',
+    },
+    body: JSON.stringify(body),
+  };
+  return response;
 };
 
 export const INTERNAL_ERROR = (e: { message: string }, context: Context): IHttpResponse => {
