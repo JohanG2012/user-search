@@ -1,12 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { Fragment } from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createGlobalStyle } from 'styled-components';
+import WebFont from 'webfontloader';
+import webFontConfig from './configs/webfonts';
+import configureStore from './state';
+import colors from './constants/colors';
+import UsersPage from './views/pages/UsersPage';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+/* eslint-disable no-unused-expressions */
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    background: ${colors.background};
+  }
+  * {
+    box-sizing: border-box;
+  }
+  #app {
+    min-height: 100%
+  }
+`;
+/* eslint-enable no-unused-expressions */
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const { store } = configureStore();
+
+WebFont.load(webFontConfig);
+
+render(
+  <Fragment>
+    <GlobalStyle />
+    <Provider store={store}>
+      <UsersPage />
+    </Provider>
+  </Fragment>,
+  document.getElementById('app'),
+);
