@@ -1,4 +1,3 @@
-/* tslint:disable no-console */
 import * as mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import httpFunction from './index';
@@ -58,17 +57,43 @@ describe('GET /api/v1/avatars', () => {
     beforeEach(async () => {
       await httpFunction(context, req);
     });
+
     it('should match snapshot', async () => {
+      // strip _id to avoid snapshot collison
+      const parsed = JSON.parse(context.res.body);
+      const striped = stripObjProps(parsed.data, ['_id']);
+      parsed.data = striped;
+      context.res.body = JSON.stringify(parsed);
+
       expect(context).toMatchSnapshot();
       expect(context.done).toHaveBeenCalledTimes(1);
     });
+
     describe('few fallbacks incase bad snapshot is saved', () => {
       it('should respond with 200 status', () => {
         expect(context.res.status).toEqual(200);
       });
+
       it('should respond with a list of 10 avatars', () => {
         expect(JSON.parse(context.res.body).data.length).toBe(10);
       });
+    });
+  });
+
+  describe('close down database connection', () => {
+    beforeEach(async () => {
+      mongoose.disconnect();
+      mongoServer.stop();
+      await httpFunction(context, req);
+    });
+
+    it('should respond with 500 error', async () => {
+      expect(context.res.status).toBe(500);
+    });
+
+    it('should match snapshot', async () => {
+      expect(context).toMatchSnapshot();
+      expect(context.done).toHaveBeenCalledTimes(1);
     });
   });
 });
