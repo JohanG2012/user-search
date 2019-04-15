@@ -18,6 +18,8 @@
     "url": "http://localhost:3030"
   },
   "dependencies": {
+    "@types/flat": "0.0.28",
+    "flat": "^4.1.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "mongoose": "^5.5.1",
