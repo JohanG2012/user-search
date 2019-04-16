@@ -13,6 +13,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     background: ${colors.background};
+    font-family: Montserrat, sans-serif;
+    color: ${colors.textPrimary};
   }
   * {
     box-sizing: border-box;

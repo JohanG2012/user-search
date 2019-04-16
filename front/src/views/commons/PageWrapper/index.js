@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
+const PageWrapper = styled.div`
   padding-left: ${props => {
     if (props.full) return 0;
     return 'calc((100vw - 960px) / 2)';
@@ -21,4 +21,4 @@ const Container = styled.div`
   }};
 `;
 
-export default Container;
+export default PageWrapper;
