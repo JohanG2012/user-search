@@ -6,6 +6,8 @@ const colors = {
   background: '#fff',
   danger: '#e41c3c',
   textPrimary: '#1c1c1c',
+  light: '#f4fcfc',
+  dark: '#898888',
 };
 
 export default colors;
