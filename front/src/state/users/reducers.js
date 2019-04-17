@@ -38,7 +38,7 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
           permission: action.payload.next,
         },
       };
-    case types.UPDATE_USER_MANUALLY:
+    case types.UPDATE_USER:
       return {
         ...state,
         data: state.data.map(user =>

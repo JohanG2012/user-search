@@ -53,10 +53,23 @@ export const setUserPermission = ({ user, permission, action }) => async dispatc
   const result = await dispatch(patchUser(user._id, { permission }));
   if (result.type === types.UPDATE_USER_SUCCESS) {
     dispatch({
-      type: types.UPDATE_USER_MANUALLY,
+      type: types.UPDATE_USER,
       payload: { id: user._id, user: { permission } },
     });
     dispatch({ type: `${action}_SUCCESS` });
   }
 };
 /* eslint-enable no-underscore-dangle */
+
+export const setUserAvatar = ({ picture, id }) => async dispatch => {
+  dispatch({ type: 'UPDATE_AVATAR_REQUEST' });
+  const result = await dispatch(patchUser(id, { picture }));
+
+  if (result.type === types.UPDATE_USER_SUCCESS) {
+    dispatch({
+      type: types.UPDATE_USER,
+      payload: { id, user: { picture } },
+    });
+    dispatch({ type: 'UPDATE_AVATAR_SUCCESS' });
+  }
+};

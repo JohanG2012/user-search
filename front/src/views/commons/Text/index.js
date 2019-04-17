@@ -9,6 +9,7 @@ const statusStyle = css`
 
 const Text = styled.p`
   color: ${({ danger }) => (danger ? colors.danger : 'initial')};
+  color: ${({ secondary }) => (secondary ? colors.textSecondary : 'initial')};
   text-align: ${({ center }) => (center ? 'center' : 'left')};
   font-size: ${({ fontSize }) => fontSize || 'medium'};
   font-family: ${({ font }) => font || 'inherit'};

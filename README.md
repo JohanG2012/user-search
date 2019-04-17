@@ -2,6 +2,7 @@
 
 - Add local-settings instructions
 - add docs instructions
+- browser tested on
 
 Setup Database:
 * run `docker-compose up`

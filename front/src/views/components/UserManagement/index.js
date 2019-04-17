@@ -5,6 +5,7 @@ import FlexBox from '../../commons/FlexBox';
 import Button from '../../commons/Button';
 import SearchField from '../../commons/SearchField';
 import ListWrapper from './ListWrapper';
+import AvatarSelection from '../AvatarSelection';
 
 const propTypes = {
   users: PropTypes.arrayOf(
@@ -36,6 +37,12 @@ const propTypes = {
   updateUserPermission: PropTypes.func.isRequired,
   addIsLoading: PropTypes.bool.isRequired,
   removeIsLoading: PropTypes.bool.isRequired,
+  avatars: PropTypes.shape({ picture: PropTypes.shape({ thumbnail: PropTypes.string }) })
+    .isRequired,
+  getAvatars: PropTypes.func.isRequired,
+  avatarsIsLoading: PropTypes.bool.isRequired,
+  avatarIsLoading: PropTypes.bool.isRequired,
+  updateUserAvatar: PropTypes.func.isRequired,
   usersIsLoading: PropTypes.bool.isRequired,
   getUsers: PropTypes.func.isRequired,
   next: PropTypes.shape({
@@ -57,6 +64,11 @@ const UserManagement = ({
   removeIsLoading,
   usersIsLoading,
   getUsers,
+  avatars,
+  getAvatars,
+  avatarsIsLoading,
+  updateUserAvatar,
+  avatarIsLoading,
   next: { users: nextUsers, permission: nextPermission },
 }) => {
   const [selectedUser, selectUser] = useState();
@@ -78,6 +90,13 @@ const UserManagement = ({
     }
   };
 
+  /* eslint-disable no-underscore-dangle */
+  const handleAvatarSelection = picture => {
+    updateUserAvatar({ id: selectedUser._id, picture });
+    selectUser({});
+  };
+  /* eslint-enable no-underscore-dangle */
+
   return (
     <Fragment>
       <FlexBox justifyBetween>
@@ -93,7 +112,17 @@ const UserManagement = ({
               isLoading={usersIsLoading}
             />
             <FlexBox justifyEnd>
-              <Button disabled={!selectedUser}>Avatar</Button>
+              <AvatarSelection
+                avatars={avatars}
+                handleAvatarSelection={handleAvatarSelection}
+                current={selectedUser}
+                getItems={getAvatars}
+                isLoading={avatarsIsLoading || avatarIsLoading}
+                disabled={
+                  !selectedUser || selectedUser.permission || avatarsIsLoading || avatarIsLoading
+                }
+              />
+
               <Button
                 loading={addIsLoading}
                 disabled={!selectedUser || selectedUser.permission || addIsLoading}
@@ -123,7 +152,16 @@ const UserManagement = ({
               isLoading={usersIsLoading}
             />
             <FlexBox justifyEnd>
-              <Button>Avatar</Button>
+              <AvatarSelection
+                avatars={avatars}
+                handleAvatarSelection={handleAvatarSelection}
+                current={selectedUser}
+                getItems={getAvatars}
+                isLoading={avatarsIsLoading || avatarIsLoading}
+                disabled={
+                  !selectedUser || !selectedUser.permission || avatarsIsLoading || avatarIsLoading
+                }
+              />
               <Button
                 loading={removeIsLoading}
                 disabled={!selectedUser || !selectedUser.permission || removeIsLoading}
