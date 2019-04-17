@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 import bouncedelay from './animations';
+import colors from '../../../constants/colors';
 
 const baseStyles = css`
-  width: 18px;
-  height: 18px;
-  background-color: #333;
+  width: ${({ small }) => (small ? '10px' : '18px')};
+  height: ${({ small }) => (small ? '10px' : '18px')};
+  background-color: ${({ light }) => (light ? colors.light : colors.dark)};
 
   border-radius: 50%;
   display: inline-block;
