@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { apiMiddleware } from 'redux-api-middleware';
 import avatarsReducer from './avatars';
 // import usersReducer from './users';
+import loadingReducer from './loading';
 
 const middlewares = [thunk, apiMiddleware];
 const composeEnhancers = composeWithDevTools({});
@@ -11,6 +12,7 @@ const middleware = composeEnhancers(applyMiddleware(...middlewares));
 
 const rootReducer = combineReducers({
   avatars: avatarsReducer,
+  loading: loadingReducer,
 });
 
 /**
