@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { spin } from './animations';
-import colors from '../../constants/colors';
+import colors from '../../../constants/colors';
 
 const Loader = styled.div`
   border: 8px solid ${colors.black};

@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   min-width: 300px;
   min-height: 300px;
   width: 100%;
-  height: ${props => (props.fullSize ? '100vh' : 'auto')};
+  height: ${({ fullSize }) => (fullSize ? '100vh' : 'auto')};
 `;
 
 export default Wrapper;
