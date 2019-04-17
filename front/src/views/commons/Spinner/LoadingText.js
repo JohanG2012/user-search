@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { spin4 } from './animations';
-import colors from '../../constants/colors';
+import colors from '../../../constants/colors';
 
 const LoadingText = styled.p`
 text-align: center;

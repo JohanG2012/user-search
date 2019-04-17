@@ -8,13 +8,18 @@ const propTypes = {
   children: PropTypes.string,
 };
 
+const defaultProps = {
+  children: '',
+};
+
 const Spinner = ({ children, ...props }) => (
   <Wrapper {...props}>
     <Loader />
-    <LoadingText>{children}</LoadingText>
+    {children && <LoadingText>{children}</LoadingText>}
   </Wrapper>
 );
 
+Spinner.defaultProps = defaultProps;
 Spinner.propTypes = propTypes;
 
 export default Spinner;

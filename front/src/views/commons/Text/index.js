@@ -9,10 +9,11 @@ const statusStyle = css`
 
 const Text = styled.p`
   color: ${({ danger }) => (danger ? colors.danger : 'initial')};
-  text-align: ${props => (props.center ? 'center' : 'left')};
-  font-size: ${props => (props.fontSize ? props.fontSize : 'medium')};
-  font-family: ${props => (props.font ? props.font : 'inherit')};
-  ${props => props.status && statusStyle};
+  text-align: ${({ center }) => (center ? 'center' : 'left')};
+  font-size: ${({ fontSize }) => fontSize || 'medium'};
+  font-family: ${({ font }) => font || 'inherit'};
+  text-transform: ${({ capitalize }) => (capitalize ? 'capitalize' : 'none')}
+    ${({ status }) => status && statusStyle};
 `;
 
 export default Text;

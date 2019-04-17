@@ -7,15 +7,19 @@ const inverseStyles = css`
 `;
 
 const Button = styled.button`
-  background-color: ${props => (props.secondary ? colors.secondary : colors.primary)};
+  background-color: ${({ secondary }) => (secondary ? colors.secondary : colors.primary)};
   color: ${colors.white};
   padding: 5px 10px;
   font-size: ${({ big }) => (big ? '20px' : '16px')};
   outline: none;
   cursor: pointer;
   margin: 15px;
-  border: 2px solid ${props => (props.secondary ? colors.secondary : colors.primary)};
+  border: 2px solid ${({ secondary }) => (secondary ? colors.secondary : colors.primary)};
   ${({ inverse }) => inverse && inverseStyles};
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 `;
 
 export default Button;

@@ -2,37 +2,51 @@ import styled from 'styled-components';
 
 const FlexBox = styled.div`
   display: flex;
-  flex-wrap: ${props => {
-    if (props.wrapReverse) return 'wrap-reverse';
-    if (props.noWrap) return 'nowrap';
+  flex-wrap: ${({ wrapReverse, noWrap }) => {
+    if (wrapReverse) return 'wrap-reverse';
+    if (noWrap) return 'nowrap';
     return 'wrap';
   }};
-  justify-content: ${props => {
-    if (props.justifyContent) return props.justifyContent;
-    if (props.justifyCenter) return 'center';
-    if (props.justifyAround) return 'space-around';
-    if (props.justifyBetween) return 'space-between';
-    if (props.justifyEnd) return 'flex-end';
+  justify-content: ${({
+    justifyAround,
+    justifyBetween,
+    justifyCenter,
+    justifyContent,
+    justifyEnd,
+  }) => {
+    if (justifyContent) return justifyContent;
+    if (justifyCenter) return 'center';
+    if (justifyAround) return 'space-around';
+    if (justifyBetween) return 'space-between';
+    if (justifyEnd) return 'flex-end';
     return 'flex-start';
   }};
-  align-items: ${props => {
-    if (props.alignItems) return props.alignItems;
-    if (props.alignStretch) return 'stretch';
-    if (props.alignEnd) return 'flex-end';
-    if (props.alignCenter) return 'center';
-    if (props.alignBaseline) return 'baseline';
+  align-items: ${({ alignBaseline, alignCenter, alignEnd, alignItems, alignStretch }) => {
+    if (alignItems) return alignItems;
+    if (alignStretch) return 'stretch';
+    if (alignEnd) return 'flex-end';
+    if (alignCenter) return 'center';
+    if (alignBaseline) return 'baseline';
     return 'flex-start';
   }};
-  align-content: ${props => {
-    if (props.alignContent) return props.content;
-    if (props.contentStart) return 'flex-start';
-    if (props.contentEnd) return 'flex-end';
-    if (props.contentCenter) return 'center';
-    if (props.contentBetween) return 'space-between';
-    if (props.contentAround) return 'contentAround';
+  align-content: ${({
+    alignContent,
+    contentStart,
+    contentEnd,
+    contentBetween,
+    contentCenter,
+    contentAround,
+    content,
+  }) => {
+    if (alignContent) return content;
+    if (contentStart) return 'flex-start';
+    if (contentEnd) return 'flex-end';
+    if (contentCenter) return 'center';
+    if (contentBetween) return 'space-between';
+    if (contentAround) return 'contentAround';
     return 'stretch';
   }};
-  flex-direction: ${props => (props.column ? 'column' : 'row')};
+  flex-direction: ${({ column }) => (column ? 'column' : 'row')};
 `;
 
 export default FlexBox;
