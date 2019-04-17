@@ -16,6 +16,10 @@ const Button = styled.button`
   margin: 15px;
   border: 2px solid ${props => (props.secondary ? colors.secondary : colors.primary)};
   ${({ inverse }) => inverse && inverseStyles};
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 `;
 
 export default Button;

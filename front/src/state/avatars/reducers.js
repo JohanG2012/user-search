@@ -6,7 +6,6 @@ const INITIAL_STATE = {
 };
 
 const avatarsReducer = (state = INITIAL_STATE, action) => {
-  console.log(action.type);
   switch (action.type) {
     case types.FETCH_AVATARS_SUCCESS:
       return {

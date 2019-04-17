@@ -12,7 +12,8 @@ const Text = styled.p`
   text-align: ${props => (props.center ? 'center' : 'left')};
   font-size: ${props => (props.fontSize ? props.fontSize : 'medium')};
   font-family: ${props => (props.font ? props.font : 'inherit')};
-  ${props => props.status && statusStyle};
+  text-transform: ${props => (props.capitalize ? 'capitalize' : 'none')}
+    ${props => props.status && statusStyle};
 `;
 
 export default Text;

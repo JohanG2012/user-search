@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Image from '../Image';
 
 const propTypes = {
-  img: propTypes.string.isRequired,
+  img: PropTypes.string.isRequired,
 };
 
 const Avatar = ({ img }) => <Image round src={img} alt="avatar image" />;

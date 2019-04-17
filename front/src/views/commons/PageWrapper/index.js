@@ -3,11 +3,11 @@ import styled from 'styled-components';
 const PageWrapper = styled.div`
   padding-left: ${props => {
     if (props.full) return 0;
-    return 'calc((100vw - 960px) / 2)';
+    return 'calc((100vw - 1000px) / 2)';
   }};
   padding-right: ${props => {
     if (props.full) return 0;
-    return 'calc((100vw - 960px) / 2)';
+    return 'calc((100vw - 1000px) / 2)';
   }};
   padding-top: ${props => {
     if (props.fullVertical) return 0;
