@@ -14,6 +14,8 @@ import UserManagement from '../../components/UserManagement';
 import { getUsers, getUsersWithPersmissions } from '../../../state/users/selectors';
 import { getLoadingState } from '../../../state/loading/selectors';
 import searchTypes from '../../../state/search/types';
+import usersTypes from '../../../state/users/types';
+import avatarsTypes from '../../../state/avatars/types';
 
 const propTypes = {
   setUsersState: PropTypes.func.isRequired,
@@ -38,9 +40,9 @@ const mapStateToProps = state => ({
     users: state.search.users.next || state.users.next.users,
     assigned: state.search.assigned.next || state.users.next.permission,
   },
-  addIsLoading: getLoadingState(state, 'ADD_PERMISSION'),
-  avatarsIsLoading: getLoadingState(state, 'FETCH_AVATARS'),
-  avatarIsLoading: getLoadingState(state, 'UPDATE_AVATAR'),
+  addIsLoading: getLoadingState(state, usersTypes.ADD_PERMISSION_ROOT),
+  avatarsIsLoading: getLoadingState(state, avatarsTypes.FETCH_AVATARS_ROOT),
+  avatarIsLoading: getLoadingState(state, usersTypes.UPDATE_AVATAR_ROOT),
   assignedSearchIsLoading: getLoadingState(state, searchTypes.SEARCH_ASSIGNED_USERS_ROOT),
   usersSearchIsLoading: getLoadingState(state, searchTypes.SEARCH_USERS_ROOT),
   users: getUsers(state),
