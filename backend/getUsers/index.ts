@@ -107,8 +107,8 @@ const getUsers: AzureFunction = async (context: Context, req: HttpRequest): Prom
   if (searchString) {
     const wordsArr = searchString.split(' ');
     const regex = wordsArr.map(word => `(?=.*?\\b${word})`).reduce((a, b) => a + b);
-    searchFields = { fullname: { $concat: ['$name.first', ' ', '$name.last'] } };
-    searchStage = [{ $match: { fullname: new RegExp(regex, 'i') } }];
+    searchFields = { 'name.fullname': { $concat: ['$name.first', ' ', '$name.last'] } };
+    searchStage = [{ $match: { 'name.fullname': new RegExp(regex, 'i') } }];
   }
 
   if (filter.permission) {
@@ -123,11 +123,16 @@ const getUsers: AzureFunction = async (context: Context, req: HttpRequest): Prom
   const limitQuery = Number(limit) || DEFAULT_LIMIT;
 
   try {
+    const projectStage = Object.entries(requestedFields).length
+      ? [{ $project: requestedFields }]
+      : [];
+    const concatStage = Object.entries(searchFields).length ? [{ $addFields: searchFields }] : [];
     // Don't use skip, it has performence issues when skipping over large collections.
     // Don't use $text search, it doesn't support partial search nor does it work well with names.
     const users = await User.aggregate([
       { $match: queryFilter },
-      { $project: { ...requestedFields, ...searchFields } },
+      ...projectStage,
+      ...concatStage,
       ...searchStage,
       { $sort: { _id: -1 } },
       { $limit: limitQuery },
@@ -139,9 +144,15 @@ const getUsers: AzureFunction = async (context: Context, req: HttpRequest): Prom
       context.res = OK(users);
     }
   } catch (e) {
-    // Check for known errors above this line E.g duplication error.
-    // Unknown error below
-    context.res = INTERNAL_ERROR(e, context);
+    // Check for known errors in case E.g duplication error, Topology was destroyed etc.
+    // Unknown error is default
+    switch (e.message.toLowerCase()) {
+      case 'topology was destroyed':
+        context.res = DATABASE_CONNECTION_ERROR();
+        break;
+      default:
+        context.res = INTERNAL_ERROR(e, context);
+    }
   }
   context.done();
 };
