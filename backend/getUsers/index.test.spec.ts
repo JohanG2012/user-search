@@ -55,6 +55,7 @@ describe('GET /api/v1/users', () => {
     beforeEach(async () => {
       await httpFunction(context, req);
     });
+
     it('should match snapshot', async () => {
       // strip _id & next to avoid snapshot collision.
       const parsed = JSON.parse(context.res.body);
@@ -70,6 +71,7 @@ describe('GET /api/v1/users', () => {
       it('should return 200 status code', () => {
         expect(context.res.status).toBe(200);
       });
+
       it('should return list of first 50 users', () => {
         expect(JSON.parse(context.res.body).data.length).toBe(50);
       });
@@ -102,7 +104,16 @@ describe('GET /api/v1/users', () => {
         });
       });
     });
+
     it('should match snapshot', () => {
+      // strip _id & next to avoid snapshot collision.
+      const parsed = JSON.parse(context.res.body);
+      const [stripedBody]: any = stripObjProps([parsed], ['next']);
+      const striped = stripObjProps(parsed.data, ['_id']);
+      stripedBody.data = striped;
+      context.res.body = JSON.stringify(stripedBody);
+
+      expect(context.done).toBeCalledTimes(1);
       expect(context).toMatchSnapshot();
     });
   });
@@ -112,9 +123,11 @@ describe('GET /api/v1/users', () => {
         req.query.limit = 60;
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(400);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -125,9 +138,11 @@ describe('GET /api/v1/users', () => {
         req.query.next = 'fake cursor';
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(400);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -135,10 +150,12 @@ describe('GET /api/v1/users', () => {
     });
   });
   describe("search for 'justine faure'", () => {
-    it('should match snapshot', async () => {
+    beforeEach(async () => {
       req.query.search = 'justine faure';
       await httpFunction(context, req);
+    });
 
+    it('should match snapshot', async () => {
       // strip _id to avoid snapshot collision.
       const parsed = JSON.parse(context.res.body);
       const striped = stripObjProps(parsed.data, ['_id']);
@@ -148,7 +165,59 @@ describe('GET /api/v1/users', () => {
       expect(context).toMatchSnapshot();
       expect(context.done).toHaveBeenCalledTimes(1);
     });
+
+    it('should respond with 1 search result', () => {
+      const parsed = JSON.parse(context.res.body);
+      expect(parsed.data.length).toBe(1);
+    });
   });
+
+  describe("search for 'faure justine'", () => {
+    beforeEach(async () => {
+      req.query.search = 'faure justine';
+      await httpFunction(context, req);
+    });
+
+    it('should match snapshot', async () => {
+      // strip _id to avoid snapshot collision.
+      const parsed = JSON.parse(context.res.body);
+      const striped = stripObjProps(parsed.data, ['_id']);
+      parsed.data = striped;
+      context.res.body = JSON.stringify(parsed);
+
+      expect(context).toMatchSnapshot();
+      expect(context.done).toHaveBeenCalledTimes(1);
+    });
+
+    it('should respond with 1 search result', () => {
+      const parsed = JSON.parse(context.res.body);
+      expect(parsed.data.length).toBe(1);
+    });
+  });
+
+  describe("search for 'f'", () => {
+    beforeEach(async () => {
+      req.query.search = 'f';
+      await httpFunction(context, req);
+    });
+
+    it('should match snapshot', async () => {
+      // strip _id to avoid snapshot collision.
+      const parsed = JSON.parse(context.res.body);
+      const striped = stripObjProps(parsed.data, ['_id']);
+      parsed.data = striped;
+      context.res.body = JSON.stringify(parsed);
+
+      expect(context).toMatchSnapshot();
+      expect(context.done).toHaveBeenCalledTimes(1);
+    });
+
+    it('should respond with 1 search result', () => {
+      const parsed = JSON.parse(context.res.body);
+      expect(parsed.data.length).toBe(6);
+    });
+  });
+
   describe('with limit & pagination', () => {
     it('should respond with page 2', async () => {
       req.query.limit = 3;
@@ -172,9 +241,11 @@ describe('GET /api/v1/users', () => {
       mongoServer.stop();
       await httpFunction(context, req);
     });
-    it('should respond with 500 error', async () => {
-      expect(context.res.status).toBe(500);
+
+    it('should respond with 503 error', async () => {
+      expect(context.res.status).toBe(503);
     });
+
     it('should match snapshot', async () => {
       expect(context).toMatchSnapshot();
       expect(context.done).toHaveBeenCalledTimes(1);

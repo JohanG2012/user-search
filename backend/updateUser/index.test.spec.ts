@@ -52,15 +52,18 @@ describe('PATCH /api/v1/user/:id', () => {
       body: {},
     };
   });
+
   describe('validation', () => {
     describe('with invalid id', () => {
       beforeEach(async () => {
         req.params.id = 'fake id';
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(400);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -72,9 +75,11 @@ describe('PATCH /api/v1/user/:id', () => {
         req.body._id = 'new _id';
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(400);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -86,9 +91,11 @@ describe('PATCH /api/v1/user/:id', () => {
         req.body = {};
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(400);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -100,9 +107,11 @@ describe('PATCH /api/v1/user/:id', () => {
         req.body.permission = true;
         await httpFunction(context, req);
       });
+
       it('should return 400 status code', async () => {
         expect(context.res.status).toBe(404);
       });
+
       it('should match snapshot', () => {
         expect(context).toMatchSnapshot();
         expect(context.done).toHaveBeenCalledTimes(1);
@@ -127,17 +136,21 @@ describe('PATCH /api/v1/user/:id', () => {
       req.body = { name: { first: newFirstName } };
       await httpFunction(context, req);
     });
+
     it('should respond with 204 status code', () => {
       expect(context.res.status).toBe(204);
     });
+
     it('should match snapshot', () => {
       expect(context).toMatchSnapshot();
       expect(context.done).toHaveBeenCalledTimes(1);
     });
+
     it('should be able to update a item', async () => {
       const [updated] = await User.find({ _id: FAKE_ID });
       expect(updated.name.first).toBe(newFirstName);
     });
+
     it('should only change body data', async () => {
       const [updated]: any = await User.find({ _id: FAKE_ID });
       original = { ...newUser };
@@ -155,9 +168,11 @@ describe('PATCH /api/v1/user/:id', () => {
       req.body = { name: { first: 'updated' } };
       await httpFunction(context, req);
     });
-    it('should respond with 500 error', async () => {
-      expect(context.res.status).toBe(500);
+
+    it('should respond with 503 error', async () => {
+      expect(context.res.status).toBe(503);
     });
+
     it('should match snapshot', async () => {
       expect(context).toMatchSnapshot();
       expect(context.done).toHaveBeenCalledTimes(1);
