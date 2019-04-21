@@ -1,4 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import * as mongoose from 'mongoose';
 import { validateQuery } from './apiSchema';
 import { connect } from '../shared/models';
 import {
@@ -71,7 +72,7 @@ const DATABASE = process.env.LOCAL_MONGODB_URI;
  *    "message":"Could not connect to database",
  * }
  */
-const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest): Promise<void> => {
+const getUsers: AzureFunction = async (context: Context, req: HttpRequest): Promise<void> => {
   const { query } = req;
   const { fields, limit, next, search: searchString } = query;
   const nonFilterQueries = ['fields', 'limit', 'next', 'search'];
@@ -91,35 +92,47 @@ const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest): P
     },
   );
 
-  const [filter] = stripObjProps([query], nonFilterQueries);
+  const [filter]: any = stripObjProps([query], nonFilterQueries);
 
   const requestedFields = fields ? getRequestedFields(fields) : {};
   const nextFilter = next
     ? {
-        _id: { $lt: next },
+        _id: { $lt: mongoose.Types.ObjectId(next) },
       }
     : {};
 
-  const search: any = {};
+  let searchFields: any = {};
+  let searchStage: any = [];
 
   if (searchString) {
-    search.$text = { $search: searchString };
+    const wordsArr = searchString.split(' ');
+    const regex = wordsArr.map(word => `(?=.*?\\b${word})`).reduce((a, b) => a + b);
+    searchFields = { fullname: { $concat: ['$name.first', ' ', '$name.last'] } };
+    searchStage = [{ $match: { fullname: new RegExp(regex, 'i') } }];
+  }
+
+  if (filter.permission) {
+    filter.permission = filter.permission === 'true';
   }
 
   const queryFilter = {
     ...nextFilter,
     ...filter,
-    ...search,
   };
 
   const limitQuery = Number(limit) || DEFAULT_LIMIT;
 
   try {
     // Don't use skip, it has performence issues when skipping over large collections.
-    const users = await User.find(queryFilter)
-      .select(requestedFields)
-      .sort({ _id: -1 })
-      .limit(limitQuery);
+    // Don't use $text search, it doesn't support partial search nor does it work well with names.
+    const users = await User.aggregate([
+      { $match: queryFilter },
+      { $project: { ...requestedFields, ...searchFields } },
+      ...searchStage,
+      { $sort: { _id: -1 } },
+      { $limit: limitQuery },
+    ]);
+
     if (users.length === limitQuery) {
       context.res = OK(users, users[users.length - 1]._id);
     } else {
@@ -133,4 +146,4 @@ const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest): P
   context.done();
 };
 
-export default httpTrigger;
+export default getUsers;
