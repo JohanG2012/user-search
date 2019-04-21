@@ -13,25 +13,13 @@ Object {
       },
     ],
   },
-  "log": [MockFunction] {
-    "calls": Array [
-      Array [
-        "topology was destroyed",
-      ],
-    ],
-    "results": Array [
-      Object {
-        "type": "return",
-        "value": undefined,
-      },
-    ],
-  },
+  "log": [MockFunction],
   "res": Object {
-    "body": "{\\"status\\":\\"error\\",\\"message\\":\\"Oops! Something unknown happend. Please open an issues with intstructions on how to reproduce this response.\\",\\"errorCode\\":2003}",
+    "body": "{\\"status\\":\\"error\\",\\"message\\":\\"Unable to reach database\\",\\"errorCode\\":2001}",
     "headers": Object {
-      "Content-Type": "application/json",
+      "Content-Type": "applicaiton/json",
     },
-    "status": 500,
+    "status": 503,
   },
 }
 `;
