@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     data: [],
     next: '',
   },
-  assigned: {
+  assignedUsers: {
     data: [],
     next: '',
   },
@@ -26,7 +26,7 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
     case types.SEARCH_ASSIGNED_USERS_SUCCESS:
       return {
         ...state,
-        assigned: {
+        assignedUsers: {
           data: action.payload.prev
             ? [...state.assigned.data, ...action.payload.data]
             : action.payload.data,
@@ -44,7 +44,7 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
     case types.SEARCH_ASSIGNED_USERS_RESET:
       return {
         ...state,
-        assigned: {
+        assignedUsers: {
           data: [],
           next: '',
         },

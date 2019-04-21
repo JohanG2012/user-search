@@ -1,7 +1,7 @@
 import { RSAA } from 'redux-api-middleware';
 import types from './types';
 import BASE_URI from '../../configs/URI';
-import { AVATARS } from '../../configs/endpoints';
+import { AVATARS } from '../../constants/endpoints';
 
 export const fetchAvatars = () => ({
   [RSAA]: {

@@ -1,7 +1,7 @@
 import { RSAA } from 'redux-api-middleware';
 import types from './types';
 import BASE_URI from '../../configs/URI';
-import { USERS, USER } from '../../configs/endpoints';
+import { USERS, USER } from '../../constants/endpoints';
 
 export const patchUser = (id, body) => ({
   [RSAA]: {
@@ -15,8 +15,10 @@ export const patchUser = (id, body) => ({
   },
 });
 
-export const fetchUsers = ({ querystring = '' }) => async dispatch => {
-  const url = `${BASE_URI}${USERS}${querystring}`;
+export const fetchUsers = ({ querystring = '', permission, next }) => async dispatch => {
+  const url = querystring
+    ? `${BASE_URI}${USERS}${querystring}`
+    : `${BASE_URI}${USERS}?permission=${permission}&fields=_id,name.first,name.last,picture.thumbnail,permission${next}`;
 
   // Always update user state to avoid unnecessary API requests - reducer will remove duplicates
   const result = await dispatch({
@@ -27,7 +29,7 @@ export const fetchUsers = ({ querystring = '' }) => async dispatch => {
     },
   });
   if (url.includes('permission=true')) {
-    dispatch({ type: types.SET_PERMISSION_NEXT, payload: { next: result.payload.next || '' } });
+    dispatch({ type: types.SET_ASSIGNED_NEXT, payload: { next: result.payload.next || '' } });
   }
   if (url.includes('permission=false')) {
     dispatch({ type: types.SET_NEXT, payload: { next: result.payload.next || '' } });
@@ -48,21 +50,24 @@ export const initUsersState = () => async dispatch => {
 };
 
 /* eslint-disable no-underscore-dangle */
-export const setUserPermission = ({ user, permission, action }) => async dispatch => {
-  dispatch({ type: `${action}_REQUEST` });
+export const setUserPermission = ({ user, permission }) => async dispatch => {
+  const type = permission ? types.ADD_PERMISSION_ROOT : types.REMOVE_PERMISSION_ROOT;
+  dispatch({ type: types[`${type}_REQUEST`] });
   const result = await dispatch(patchUser(user._id, { permission }));
   if (result.type === types.UPDATE_USER_SUCCESS) {
     dispatch({
       type: types.UPDATE_USER,
       payload: { id: user._id, user: { permission } },
     });
-    dispatch({ type: `${action}_SUCCESS` });
+    dispatch({ type: types[`${type}_SUCCESS`] });
+  } else {
+    dispatch({ type: types[`${type}_FAILURE`], payload: result.payload });
   }
 };
 /* eslint-enable no-underscore-dangle */
 
 export const setUserAvatar = ({ picture, id }) => async dispatch => {
-  dispatch({ type: 'UPDATE_AVATAR_REQUEST' });
+  dispatch({ type: types.UPDATE_AVATAR_REQUEST });
   const result = await dispatch(patchUser(id, { picture }));
 
   if (result.type === types.UPDATE_USER_SUCCESS) {
@@ -70,6 +75,8 @@ export const setUserAvatar = ({ picture, id }) => async dispatch => {
       type: types.UPDATE_USER,
       payload: { id, user: { picture } },
     });
-    dispatch({ type: 'UPDATE_AVATAR_SUCCESS' });
+    dispatch({ type: types.UPDATE_AVATAR_SUCCESS });
+  } else {
+    dispatch({ type: types.UPDATE_AVATAR_FAILURE, payload: result.payload });
   }
 };

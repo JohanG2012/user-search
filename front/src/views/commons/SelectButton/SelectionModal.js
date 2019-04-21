@@ -18,7 +18,7 @@ const defaultProps = {
 };
 
 const SelectionModal = ({ items, text, width, toggleModal, onSelect }) => (
-  <Wrapper width={width}>
+  <Wrapper secondary width={width}>
     <Text secondary center>
       {text}
     </Text>
@@ -37,7 +37,7 @@ const SelectionModal = ({ items, text, width, toggleModal, onSelect }) => (
       )}
     </FlexBox>
     <FlexBox justifyCenter style={{ position: 'relative', top: '20px' }}>
-      <Arrow />
+      <Arrow secondary />
     </FlexBox>
   </Wrapper>
 );

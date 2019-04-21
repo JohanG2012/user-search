@@ -12,15 +12,6 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         data: action.payload.data,
       };
-    case types.FETCH_AVATARS_REQUEST:
-      return {
-        ...state,
-      };
-    case types.FETCH_AVATARS_FAILURE:
-      return {
-        ...state,
-        error: action.payload.data,
-      };
     default:
       return state;
   }
