@@ -1,5 +1,5 @@
 const loadingReducer = (state = {}, action) => {
-  const match = /(.*)_(REQUEST|SUCCESS|FAILURE)/.exec(action.type);
+  const match = /(.*)_(REQUEST|SUCCESS|FAILURE|CANCELED)/.exec(action.type);
 
   if (!match) return state;
 

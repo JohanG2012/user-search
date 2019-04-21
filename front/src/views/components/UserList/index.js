@@ -4,6 +4,7 @@ import Loader from '../../commons/Loader';
 import UserItem from './UserItem';
 import FlexScroll from './FlexScroll';
 import Title from '../../commons/Title';
+import Text from '../../commons/Text';
 import LoaderWrapper from './LoaderWrapper';
 /* eslint-disable no-underscore-dangle */
 
@@ -40,7 +41,13 @@ const UserList = ({ title, users, selectUser, selectedUser, handleScroll, isLoad
     <Title heading="2" center>
       {title}
     </Title>
-    <FlexScroll onScroll={e => handleScroll(e.target, title)}>
+    <FlexScroll
+      contentStart={users.length}
+      contentCenter={!users.length}
+      justifyCenter={!users.length}
+      onScroll={e => handleScroll(e.target, title)}
+    >
+      {!users.length && !isLoading && <Text center>No users were found...</Text>}
       {!!users.length &&
         users.map(user => (
           <UserItem

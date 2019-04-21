@@ -2,18 +2,22 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { apiMiddleware } from 'redux-api-middleware';
-import avatarsReducer from './avatars';
-import usersReducer from './users';
-import loadingReducer from './loading';
+import avatars from './avatars';
+import users from './users';
+import loading from './loading';
+import search from './search';
+import cache from './cache';
 
 const middlewares = [thunk, apiMiddleware];
 const composeEnhancers = composeWithDevTools({});
 const middleware = composeEnhancers(applyMiddleware(...middlewares));
 
 const rootReducer = combineReducers({
-  avatars: avatarsReducer,
-  users: usersReducer,
-  loading: loadingReducer,
+  avatars,
+  users,
+  loading,
+  search,
+  cache,
 });
 
 /**

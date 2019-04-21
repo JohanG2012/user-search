@@ -1,3 +1,4 @@
+import { uniq } from 'underscore';
 import types from './types';
 /* eslint-disable no-underscore-dangle */
 
@@ -15,7 +16,7 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
     case types.FETCH_USERS_SUCCESS:
       return {
         ...state,
-        data: [...state.data, ...action.payload.data],
+        data: uniq([...state.data, ...action.payload.data], '_id'),
       };
     case types.FETCH_USERS_FAILURE:
       return {
