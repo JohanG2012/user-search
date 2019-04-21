@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import UserList from '../UserList';
 import FlexBox from '../../commons/FlexBox';
 import Button from '../../commons/Button';
-import SearchField from '../../commons/SearchField';
 import ListWrapper from './ListWrapper';
 import AvatarSelection from '../AvatarSelection';
+import SearchField from '../../commons/SearchField';
+
+const USERS = 'All users';
+const ASSIGNED = 'Assigned users';
 
 const propTypes = {
   users: PropTypes.arrayOf(
@@ -68,32 +71,77 @@ const UserManagement = ({
   getAvatars,
   avatarsIsLoading,
   updateUserAvatar,
+  assignedSearchIsLoading,
+  usersSearchIsLoading,
   avatarIsLoading,
-  next: { users: nextUsers, permission: nextPermission },
+  search,
+  searchResult,
+  resetSearch,
+  next: { users: nextUsers, assigned: nextAssigned },
 }) => {
-  const [selectedUser, selectUser] = useState();
+  const [state, setState] = useState({
+    selectedUser: {},
+    fields: { userSearch: '', assignedUserSearch: '' },
+  });
 
   const handleScroll = (target, element) => {
+    const permission = element === ASSIGNED;
+    if (
+      usersIsLoading ||
+      (assignedSearchIsLoading && permission) ||
+      (usersSearchIsLoading && !permission)
+    ) {
+      return;
+    }
     const startFetchAt = 140;
     const shouldFetch = target.scrollHeight - target.scrollTop - startFetchAt < target.clientHeight;
-    const permission = element === 'Assigned users';
     let next = '';
-    if (nextPermission && element === 'Assigned users') {
-      next = `&next=${nextPermission}`;
+    if (nextAssigned && element === ASSIGNED) {
+      next = `&next=${nextAssigned}`;
     }
-    if (nextUsers && element === 'All users') {
+    if (nextUsers && element === USERS) {
       next = `&next=${nextUsers}`;
     }
+    const isNotSearch =
+      (permission && !state.fields.assignedUserSearch) || (!permission && !state.fields.userSearch);
+    const isUserSearch = !permission && state.fields.userSearch;
+    const isAssignedSearch = permission && state.fields.assignedUserSearch;
     if (shouldFetch && next) {
-      const querystring = `?permission=${permission}&fields=_id,name.first,name.last,picture.thumbnail,permission${next}`;
-      getUsers({ querystring });
+      if (isAssignedSearch) {
+        search({ searchQuery: state.fields.assignedUserSearch, permission, next });
+      }
+      if (isUserSearch) {
+        search({ searchQuery: state.fields.userSearch, permission, next });
+      }
+      if (isNotSearch) {
+        const querystring = `?permission=${permission}&fields=_id,name.first,name.last,picture.thumbnail,permission${next}`;
+        getUsers({ querystring });
+      }
+    }
+  };
+
+  const handlePermissionChange = permission => {
+    updateUserPermission({
+      user: state.selectedUser,
+      permission,
+      action: permission ? 'ADD_PERMISSION' : 'REMOVE_PERMISSION',
+    });
+    setState({ ...state, selectedUser: '' });
+  };
+
+  const handleSearch = ({ target: { value, name } }, permission) => {
+    setState({ ...state, fields: { ...state.fields, [name]: value } });
+    if (value) {
+      search({ searchQuery: value, permission });
+    } else {
+      resetSearch({ permission });
     }
   };
 
   /* eslint-disable no-underscore-dangle */
   const handleAvatarSelection = picture => {
-    updateUserAvatar({ id: selectedUser._id, picture });
-    selectUser({});
+    updateUserAvatar({ id: state.selectedUser._id, picture });
+    setState({ ...state, selectedUser: {} });
   };
   /* eslint-enable no-underscore-dangle */
 
@@ -101,39 +149,42 @@ const UserManagement = ({
     <Fragment>
       <FlexBox justifyBetween>
         <div>
-          <SearchField placeholder="Search e.g. Firstname Lastname" />
+          <SearchField
+            value={state.fields.userSearch}
+            name="userSearch"
+            placeholder="Search e.g. Firstname Lastname"
+            onChange={event => handleSearch(event, false)}
+          />
           <ListWrapper secondary>
             <UserList
               handleScroll={handleScroll}
-              title="All users"
-              users={users}
-              selectUser={selectUser}
-              selectedUser={selectedUser}
+              title={USERS}
+              users={
+                searchResult.users.length || state.fields.userSearch ? searchResult.users : users
+              }
+              selectUser={value => setState({ ...state, selectedUser: value })}
+              selectedUser={state.selectedUser}
               isLoading={usersIsLoading}
             />
             <FlexBox justifyEnd>
               <AvatarSelection
                 avatars={avatars}
                 handleAvatarSelection={handleAvatarSelection}
-                current={selectedUser}
+                current={state.selectedUser}
                 getItems={getAvatars}
                 isLoading={avatarsIsLoading || avatarIsLoading}
                 disabled={
-                  !selectedUser || selectedUser.permission || avatarsIsLoading || avatarIsLoading
+                  !state.selectedUser ||
+                  state.selectedUser.permission ||
+                  avatarsIsLoading ||
+                  avatarIsLoading
                 }
               />
 
               <Button
                 loading={addIsLoading}
-                disabled={!selectedUser || selectedUser.permission || addIsLoading}
-                onClick={() => {
-                  updateUserPermission({
-                    user: selectedUser,
-                    permission: true,
-                    action: 'ADD_PERMISSION',
-                  });
-                  selectUser({});
-                }}
+                disabled={!state.selectedUser || state.selectedUser.permission || addIsLoading}
+                onClick={() => handlePermissionChange(true)}
               >
                 Add
               </Button>
@@ -141,38 +192,43 @@ const UserManagement = ({
           </ListWrapper>
         </div>
         <div>
-          <SearchField placeholder="Search e.g. Firstname Lastname" />
+          <SearchField
+            value={state.fields.assignedUserSearch}
+            name="assignedUserSearch"
+            placeholder="Search e.g. Firstname Lastname"
+            onChange={event => handleSearch(event, true)}
+          />
           <ListWrapper secondary>
             <UserList
               handleScroll={handleScroll}
-              title="Assigned users"
-              users={usersWithPermissions}
-              selectUser={selectUser}
-              selectedUser={selectedUser}
+              title={ASSIGNED}
+              users={
+                searchResult.assigned.length || state.fields.assignedUserSearch
+                  ? searchResult.assigned
+                  : usersWithPermissions
+              }
+              selectUser={value => setState({ ...state, selectedUser: value })}
+              selectedUser={state.selectedUser}
               isLoading={usersIsLoading}
             />
             <FlexBox justifyEnd>
               <AvatarSelection
                 avatars={avatars}
                 handleAvatarSelection={handleAvatarSelection}
-                current={selectedUser}
+                current={state.selectedUser}
                 getItems={getAvatars}
                 isLoading={avatarsIsLoading || avatarIsLoading}
                 disabled={
-                  !selectedUser || !selectedUser.permission || avatarsIsLoading || avatarIsLoading
+                  !state.selectedUser ||
+                  !state.selectedUser.permission ||
+                  avatarsIsLoading ||
+                  avatarIsLoading
                 }
               />
               <Button
                 loading={removeIsLoading}
-                disabled={!selectedUser || !selectedUser.permission || removeIsLoading}
-                onClick={() => {
-                  updateUserPermission({
-                    user: selectedUser,
-                    permission: false,
-                    action: 'REMOVE_PERMISSION',
-                  });
-                  selectUser({});
-                }}
+                disabled={!state.selectedUser || !state.selectedUser.permission || removeIsLoading}
+                onClick={() => handlePermissionChange(false)}
               >
                 Remove
               </Button>
