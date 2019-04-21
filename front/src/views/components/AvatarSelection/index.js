@@ -20,6 +20,7 @@ const AvatarSelection = ({ avatars, handleAvatarSelection: handleSelection, ...r
   const avatarList = avatars.map(avatar => (
     <Avatar
       selectValue={avatar.picture}
+      key={avatar._id}
       secondary
       selectable
       img={avatar.picture.thumbnail}

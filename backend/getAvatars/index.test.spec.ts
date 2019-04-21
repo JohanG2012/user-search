@@ -87,8 +87,8 @@ describe('GET /api/v1/avatars', () => {
       await httpFunction(context, req);
     });
 
-    it('should respond with 500 error', async () => {
-      expect(context.res.status).toBe(500);
+    it('should respond with 503 error', async () => {
+      expect(context.res.status).toBe(503);
     });
 
     it('should match snapshot', async () => {

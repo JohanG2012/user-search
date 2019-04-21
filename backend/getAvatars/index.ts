@@ -60,9 +60,15 @@ const getAvatars: AzureFunction = async (context: Context, req: HttpRequest): Pr
       .limit(10);
     context.res = OK(thumbnails);
   } catch (e) {
-    // Check for known errors above this line E.g duplication error.
-    // Unknown error below
-    context.res = INTERNAL_ERROR(e, context);
+    // Check for known errors in case E.g duplication error, Topology was destroyed etc.
+    // Unknown error is default
+    switch (e.message.toLowerCase()) {
+      case 'topology was destroyed':
+        context.res = DATABASE_CONNECTION_ERROR();
+        break;
+      default:
+        context.res = INTERNAL_ERROR(e, context);
+    }
   }
   context.done();
 };

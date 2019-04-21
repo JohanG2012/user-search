@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   top: -230px;
   left: -150px;
   z-index: 999;
-  background: ${colors.backgroundSecondary};
+  background: ${({ secondary }) => (secondary ? colors.backgroundSecondary : colors.background)};
   padding: 10px;
   width: ${({ width }) => width || '400px'};
 `;

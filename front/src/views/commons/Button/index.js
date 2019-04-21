@@ -19,8 +19,8 @@ const defaultProps = {
   children: '',
 };
 
-const Button = ({ secondary, big, inverse, loading, children, ...rest }) => (
-  <Wrapper type="button" secondary={secondary} big={big} inverse={inverse} {...rest}>
+const Button = ({ loading, children, ...rest }) => (
+  <Wrapper type="button" {...rest}>
     {loading ? <Loader small light /> : children}
   </Wrapper>
 );

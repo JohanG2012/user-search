@@ -11,9 +11,7 @@ import { searchForUsers, removeSearch } from '../../../state/search/actions';
 import { fetchAvatars } from '../../../state/avatars/actions';
 
 import UserManagement from '../../components/UserManagement';
-import { getUsers, getUsersWithPersmissions } from '../../../state/users/selectors';
-import { getLoadingState } from '../../../state/loading/selectors';
-import searchTypes from '../../../state/search/types';
+import { getUsers, getAssignedUsers } from '../../../state/users/selectors';
 
 const propTypes = {
   setUsersState: PropTypes.func.isRequired,
@@ -31,21 +29,15 @@ const UserManagementContainer = ({ setUsersState, ...rest }) => {
 };
 
 const mapStateToProps = state => ({
-  usersIsLoading: getLoadingState(state, 'FETCH_USERS'),
-  removeIsLoading: getLoadingState(state, 'REMOVE_PERMISSION'),
+  isLoading: state.loading || {},
   avatars: state.avatars.data,
   next: {
     users: state.search.users.next || state.users.next.users,
-    assigned: state.search.assigned.next || state.users.next.permission,
+    assignedUsers: state.search.assignedUsers.next || state.users.next.assignedUsers,
   },
-  addIsLoading: getLoadingState(state, 'ADD_PERMISSION'),
-  avatarsIsLoading: getLoadingState(state, 'FETCH_AVATARS'),
-  avatarIsLoading: getLoadingState(state, 'UPDATE_AVATAR'),
-  assignedSearchIsLoading: getLoadingState(state, searchTypes.SEARCH_ASSIGNED_USERS_ROOT),
-  usersSearchIsLoading: getLoadingState(state, searchTypes.SEARCH_USERS_ROOT),
   users: getUsers(state),
-  usersWithPermissions: getUsersWithPersmissions(state),
-  searchResult: { users: state.search.users.data, assigned: state.search.assigned.data },
+  assignedUsers: getAssignedUsers(state),
+  searchResult: { users: state.search.users.data, assignedUsers: state.search.assignedUsers.data },
 });
 
 const mapDispatchToProps = dispatch => ({

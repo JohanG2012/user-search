@@ -1,6 +1,6 @@
 const webFonts = {
   google: {
-    families: ['Poppins', 'Montserrat'],
+    families: ['Montserrat'],
   },
   custom: {
     families: ['FontAwesome'],

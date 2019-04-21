@@ -2,6 +2,7 @@ import { Context } from '@azure/functions';
 import { HttpStatusCode } from '../enums/HttpStatusCode';
 import { IHttpResponse } from '../interfaces/IHttpResponse';
 import { IBody } from '../interfaces/IBody';
+import { uniqueID } from './helpers';
 
 export const DATABASE_CONNECTION_ERROR = (): IHttpResponse => {
   const body: IBody = {
@@ -47,11 +48,11 @@ export const VALIDATION_ERROR = (JoiError: any) => {
 };
 
 export const INTERNAL_ERROR = (e: { message: string }, context: Context): IHttpResponse => {
-  context.log(e.message); // Could be set to print to log files instead
+  const refId = uniqueID();
+  context.log(`Error: ${e.message}, InvocationId: ${context.invocationId}, Ref: ${refId}`);
   const body: IBody = {
     status: 'error',
-    message:
-      'Oops! Something unknown happend. Please open an issues with intstructions on how to reproduce this response.',
+    message: `Oops! Something unknown happend. Please open an issues with intstructions on how to reproduce this response. Add this id to the issue: ${refId}`,
     errorCode: 2003,
   };
   const response: IHttpResponse = {

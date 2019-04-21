@@ -7,6 +7,7 @@ import users from './users';
 import loading from './loading';
 import search from './search';
 import cache from './cache';
+import errors from './errors';
 
 const middlewares = [thunk, apiMiddleware];
 const composeEnhancers = composeWithDevTools({});
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   loading,
   search,
   cache,
+  errors,
 });
 
 /**

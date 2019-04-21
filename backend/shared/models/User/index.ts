@@ -30,7 +30,7 @@ const userSchema = new Schema(
       medium: { type: String, required: true },
       thumbnail: { type: String, required: true },
     },
-    permission: { type: Boolean },
+    permission: { type: Boolean, default: false },
   },
   {
     versionKey: false,

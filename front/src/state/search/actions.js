@@ -1,6 +1,6 @@
 import axios from 'axios';
 import BASE_URI from '../../configs/URI';
-import { USERS } from '../../configs/endpoints';
+import { USERS } from '../../constants/endpoints';
 import usersTypes from '../users/types';
 import types from './types';
 import cacheTypes from '../cache/types';

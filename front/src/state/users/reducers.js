@@ -4,24 +4,18 @@ import types from './types';
 
 const INITIAL_STATE = {
   data: [],
-  search: {},
   next: {
     users: '',
-    permission: '',
+    assignedUsers: '',
   },
 };
 
-const avatarsReducer = (state = INITIAL_STATE, action) => {
+const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.FETCH_USERS_SUCCESS:
       return {
         ...state,
         data: uniq([...state.data, ...action.payload.data], '_id'),
-      };
-    case types.FETCH_USERS_FAILURE:
-      return {
-        ...state,
-        error: action.payload.data,
       };
     case types.SET_NEXT:
       return {
@@ -31,12 +25,12 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
           users: action.payload.next,
         },
       };
-    case types.SET_PERMISSION_NEXT:
+    case types.SET_ASSIGNED_NEXT:
       return {
         ...state,
         next: {
           ...state.next,
-          permission: action.payload.next,
+          assignedUsers: action.payload.next,
         },
       };
     case types.UPDATE_USER:
@@ -51,4 +45,4 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default avatarsReducer;
+export default usersReducer;
