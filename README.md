@@ -21,6 +21,23 @@
 * run `npm install`
 * start backend `npm start`
 
+local-settings.json will require atleast these values (beside the default ones).
+
+```
+{
+  "IsEncrypted": false,
+  "Values": {
+    "WEBSITE_NODE_DEFAULT_VERSION": "10.14.1",
+    "MONGODB_URI": "mongodb://localhost:27017/usersearchdb",
+    "NODE_ENV": "PRODUCTION" // or "DEVELOPMENT"
+  },
+  "Host": {
+    "LocalHttpPort": 3030,
+    "CORS": "*"
+  }
+}
+```
+
 ## Setup Frontend
 * cd into front folder
 * run `npm install`
