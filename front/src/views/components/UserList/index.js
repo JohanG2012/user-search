@@ -32,6 +32,8 @@ const propTypes = {
   renderActions: PropTypes.node.isRequired,
   searchValue: PropTypes.string.isRequired,
   handleSearch: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  searchIsLoading: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -50,10 +52,14 @@ const UserList = ({
   renderActions,
   searchValue,
   handleSearch,
+  handleReset,
+  searchIsLoading,
 }) => (
   <div>
     <SearchField
       value={searchValue}
+      handleReset={handleReset}
+      loading={searchIsLoading}
       name={title}
       placeholder="Search e.g. Firstname Lastname"
       onChange={handleSearch}
