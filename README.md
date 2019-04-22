@@ -43,6 +43,10 @@ local-settings.json will require atleast these values (beside the default ones).
 * run `npm install`
 * start front `npm start`
 
+## Run tests
+* cd into backend folder
+* run `npm run test`
+
 ## Api Documentation
 
 * cd into backend folder
