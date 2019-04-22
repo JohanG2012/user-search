@@ -82,6 +82,7 @@ const UserList = ({
                 user={user}
                 key={user._id}
                 onClick={() => selectUser(user)}
+                onKeyPress={() => selectUser(user)}
                 selected={selectedUser._id === user._id}
               />
             ))}

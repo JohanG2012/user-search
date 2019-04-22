@@ -7,6 +7,17 @@ const inverseStyles = css`
   color: colors.primary;
 `;
 
+const hoverStyles = css`
+  :hover {
+    background-color: ${({ secondary }) =>
+      secondary ? darken(0.2, colors.secondary) : darken(0.2, colors.primary)};
+    border: 2px solid
+      ${({ secondary }) =>
+        secondary ? darken(0.2, colors.secondary) : darken(0.2, colors.primary)};
+    transition: background ease-out 0.3s, border ease-out 0.3s;
+  }
+`;
+
 const Button = styled.button`
   background-color: ${({ secondary }) => (secondary ? colors.secondary : colors.primary)};
   color: ${colors.white};
@@ -18,17 +29,14 @@ const Button = styled.button`
   transition: background ease-in 0.3s, border ease-in 0.3s;
   border: 2px solid ${({ secondary }) => (secondary ? colors.secondary : colors.primary)};
   ${({ inverse }) => inverse && inverseStyles};
+  ${({ disabled }) => !disabled && hoverStyles}
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
-  :hover {
-    background-color: ${({ secondary }) =>
-      secondary ? darken(0.2, colors.secondary) : darken(0.2, colors.primary)};
-    border: 2px solid
-      ${({ secondary }) =>
-        secondary ? darken(0.2, colors.secondary) : darken(0.2, colors.primary)};
-    transition: background ease-out 0.3s, border ease-out 0.3s;
+
+  :focus {
+    outline: 1px solid ${darken(0.3, '#9ecaed')};
   }
 `;
 

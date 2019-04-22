@@ -31,6 +31,10 @@ const SelectionModal = ({ items, text, width, toggleModal, onSelect }) => (
               toggleModal();
               onSelect(item.props.selectValue);
             },
+            onKeyPress: () => {
+              toggleModal();
+              onSelect(item.props.selectValue);
+            },
           },
           null,
         ),
