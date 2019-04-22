@@ -2,6 +2,8 @@ import { RSAA } from 'redux-api-middleware';
 import types from './types';
 import BASE_URI from '../../configs/URI';
 import { USERS, USER } from '../../constants/endpoints';
+import searchTypes from '../search/types';
+import cacheTypes from '../cache/types';
 
 export const patchUser = (id, body) => ({
   [RSAA]: {
@@ -52,12 +54,23 @@ export const initUsersState = () => async dispatch => {
 /* eslint-disable no-underscore-dangle */
 export const setUserPermission = ({ user, permission }) => async dispatch => {
   const type = permission ? types.ADD_PERMISSION_ROOT : types.REMOVE_PERMISSION_ROOT;
+  const searchType = permission
+    ? searchTypes.REMOVE_FROM_USERS_SEARCH
+    : searchTypes.REMOVE_FROM_ASSIGNED_SEARCH;
   dispatch({ type: types[`${type}_REQUEST`] });
   const result = await dispatch(patchUser(user._id, { permission }));
   if (result.type === types.UPDATE_USER_SUCCESS) {
     dispatch({
       type: types.UPDATE_USER,
       payload: { id: user._id, user: { permission } },
+    });
+    dispatch({
+      type: searchType,
+      payload: { id: user._id },
+    });
+    dispatch({
+      type: cacheTypes.REMOVE_DEPRECATED_CACHE,
+      payload: { id: user._id },
     });
     dispatch({ type: types[`${type}_SUCCESS`] });
   } else {
@@ -74,6 +87,18 @@ export const setUserAvatar = ({ picture, id }) => async dispatch => {
     dispatch({
       type: types.UPDATE_USER,
       payload: { id, user: { picture } },
+    });
+    dispatch({
+      type: searchTypes.UPDATE_ASSIGNED_SEARCH,
+      payload: { id, user: { picture } },
+    });
+    dispatch({
+      type: searchTypes.UPDATE_USERS_SEARCH,
+      payload: { id, user: { picture } },
+    });
+    dispatch({
+      type: cacheTypes.REMOVE_DEPRECATED_CACHE,
+      payload: { id },
     });
     dispatch({ type: types.UPDATE_AVATAR_SUCCESS });
   } else {

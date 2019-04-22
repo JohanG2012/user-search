@@ -27,6 +27,33 @@ export const generateSearchCache = (state, action) => {
   };
 };
 
+/* eslint-disable no-underscore-dangle */
+export const removeDeprecatedCache = (state, action) => {
+  const stateEntries = Object.entries(state.search);
+  const keepEntries = stateEntries.filter(([, obj]) => {
+    let exists = true;
+    obj.data.forEach(user => {
+      if (user._id === action.payload.id) {
+        exists = false;
+      }
+    });
+    return exists;
+  });
+
+  const newSearch = {};
+
+  keepEntries.forEach(([key, value]) => {
+    newSearch[key] = value;
+  });
+
+  return {
+    search: {
+      ...newSearch,
+    },
+  };
+};
+/* eslint-enable no-underscore-dangle */
+
 export default {
   generateSearchCache,
 };

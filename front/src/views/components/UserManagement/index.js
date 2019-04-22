@@ -11,24 +11,10 @@ import avatarsTypes from '../../../state/avatars/types';
 const USERS = 'All users';
 const ASSIGNED = 'Assigned users';
 
-const userPropTypes = PropTypes.arrayOf(
-  PropTypes.shape({
-    _id: PropTypes.string,
-    name: {
-      first: PropTypes.string,
-      last: PropTypes.string,
-    },
-    picture: {
-      thumbnail: PropTypes.string,
-    },
-    permission: PropTypes.bool,
-  }),
-);
-
 const propTypes = {
-  isLoading: PropTypes.shape({}).isRequired,
-  users: userPropTypes.isRequired,
-  assignedUsers: userPropTypes.isRequired,
+  isLoading: PropTypes.shape().isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  assignedUsers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   updateUserPermission: PropTypes.func.isRequired,
   avatars: PropTypes.arrayOf(
     PropTypes.shape({ picture: PropTypes.shape({ thumbnail: PropTypes.string }) }),
@@ -42,8 +28,8 @@ const propTypes = {
   }).isRequired,
   search: PropTypes.func.isRequired,
   searchResult: PropTypes.shape({
-    assignedUsers: PropTypes.arrayOf(userPropTypes),
-    users: PropTypes.arrayOf(userPropTypes),
+    assignedUsers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    users: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }).isRequired,
   resetSearch: PropTypes.func.isRequired,
 };
