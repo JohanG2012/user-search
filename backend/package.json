@@ -18,18 +18,18 @@
     "url": "http://localhost:3030"
   },
   "dependencies": {
-    "@types/flat": "0.0.28",
     "flat": "^4.1.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
-    "mongoose": "^5.5.1",
-    "ts-jest": "^24.0.2"
+    "mongoose": "^5.5.1"
   },
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta2",
     "@types/jest": "^24.0.11",
     "@types/joi": "^14.3.2",
     "@types/mongodb": "^3.1.23",
+    "ts-jest": "^24.0.2",
+    "@types/flat": "0.0.28",
     "@types/mongodb-memory-server": "^1.8.0",
     "@types/mongoose": "^5.3.26",
     "@types/node": "^11.13.4",
