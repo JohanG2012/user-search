@@ -122,6 +122,18 @@ const UserManagement = ({
     }
   };
 
+  const handleReset = form => {
+    const permission = form === ASSIGNED;
+    resetSearch({ permission });
+    setState({
+      ...state,
+      fields: {
+        ...state.fields,
+        [form]: '',
+      },
+    });
+  };
+
   const handleUserSelect = value => setState({ ...state, selectedUser: value });
 
   /* eslint-disable no-underscore-dangle */
@@ -209,6 +221,8 @@ const UserManagement = ({
         selectedUser={selectedUser}
         isLoading={!!isLoading[usersTypes.FETCH_USERS_ROOT]}
         renderActions={userActions}
+        searchIsLoading={!!isLoading[searchTypes.SEARCH_USERS_ROOT]}
+        handleReset={() => handleReset(USERS)}
       />
       <UserList
         searchValue={fields[ASSIGNED]}
@@ -224,6 +238,8 @@ const UserManagement = ({
         selectedUser={selectedUser}
         isLoading={!!isLoading[usersTypes.FETCH_USERS_ROOT]}
         renderActions={assignedUserActions}
+        searchIsLoading={!!isLoading[searchTypes.SEARCH_ASSIGNED_USERS_ROOT]}
+        handleReset={() => handleReset(ASSIGNED)}
       />
     </FlexBox>
   );
