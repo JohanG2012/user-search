@@ -1,5 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Field from '../Field';
+
+const propTypes = {
+  handleReset: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 const SearchField = ({ handleReset, loading, value, ...rest }) => (
   <div style={{ position: 'relative' }}>
@@ -14,9 +21,12 @@ const SearchField = ({ handleReset, loading, value, ...rest }) => (
     {!loading && value && (
       <i
         style={{ position: 'absolute', top: 16, right: 30, cursor: 'pointer' }}
+        tabIndex="0"
+        role="button"
         className="fa fa-times-circle"
         aria-hidden="true"
         onClick={handleReset}
+        onKeyPress={handleReset}
       />
     )}
     {loading && (
@@ -29,4 +39,5 @@ const SearchField = ({ handleReset, loading, value, ...rest }) => (
   </div>
 );
 
+SearchField.propTypes = propTypes;
 export default SearchField;

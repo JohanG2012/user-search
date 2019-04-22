@@ -15,11 +15,12 @@ const propTypes = {
   ).isRequired,
   handleAvatarSelection: PropTypes.func.isRequired,
 };
-
+/* eslint-disable no-underscore-dangle */
 const AvatarSelection = ({ avatars, handleAvatarSelection: handleSelection, ...rest }) => {
   const avatarList = avatars.map(avatar => (
     <Avatar
       selectValue={avatar.picture}
+      tabIndex="0"
       key={avatar._id}
       secondary
       selectable
@@ -30,6 +31,7 @@ const AvatarSelection = ({ avatars, handleAvatarSelection: handleSelection, ...r
 
   return (
     <SelectButton
+      tabIndex="0"
       items={avatarList}
       handleSelection={handleSelection}
       {...rest}
@@ -39,6 +41,7 @@ const AvatarSelection = ({ avatars, handleAvatarSelection: handleSelection, ...r
     </SelectButton>
   );
 };
+/* eslint-enable no-underscore-dangle */
 
 AvatarSelection.propTypes = propTypes;
 

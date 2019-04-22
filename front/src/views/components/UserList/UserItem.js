@@ -20,7 +20,7 @@ const UserItem = ({
   selected,
   ...rest
 }) => (
-  <ItemWrapper {...rest} alignCenter justifyCenter column selected={selected}>
+  <ItemWrapper tabIndex="0" {...rest} alignCenter justifyCenter column selected={selected}>
     <Avatar img={thumbnail} />
     <Text center fontSize="12px" style={{ margin: '5px 0 0 0' }} capitalize>
       {first}
