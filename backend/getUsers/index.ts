@@ -36,7 +36,7 @@ const DATABASE = process.env.MONGODB_URI;
  *     curl -v -X GET http://localhost:3030/api/v1/users?search=justin
  *
  * @apiExample {curl} Example usage - Partial:
- *     curl -v -X GET http://localhost:3030/api/v1/users?fields=firstname,lastname
+ *     curl -v -X GET http://localhost:3030/api/v1/users?fields=name.first,name.last
  *
  * @apiExample {curl} Example usage - Filter:
  *     curl -v -X GET http://localhost:3030/api/v1/users?name.title=mr
