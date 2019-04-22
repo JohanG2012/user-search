@@ -37,6 +37,6 @@ const userSchema = new Schema(
   },
 );
 
-userSchema.index({ 'name.last': 'text', 'name.first': 'text' });
+userSchema.index({ 'name.last': 1, 'name.first': 1 });
 
 export default model<IUser>('User', userSchema);
