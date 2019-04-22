@@ -1,4 +1,5 @@
 import types from './types';
+/* eslint-disable no-underscore-dangle */
 
 const INITIAL_STATE = {
   users: {
@@ -47,6 +48,42 @@ const avatarsReducer = (state = INITIAL_STATE, action) => {
         assignedUsers: {
           data: [],
           next: '',
+        },
+      };
+    case types.UPDATE_USERS_SEARCH:
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          data: state.users.data.map(user =>
+            user._id === action.payload.id ? { ...user, ...action.payload.user } : user,
+          ),
+        },
+      };
+    case types.UPDATE_ASSIGNED_SEARCH:
+      return {
+        ...state,
+        assignedUsers: {
+          ...state.users,
+          data: state.assignedUsers.data.map(user =>
+            user._id === action.payload.id ? { ...user, ...action.payload.user } : user,
+          ),
+        },
+      };
+    case types.REMOVE_FROM_USERS_SEARCH:
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          data: state.users.data.filter(user => user._id !== action.payload.id),
+        },
+      };
+    case types.REMOVE_FROM_ASSIGNED_SEARCH:
+      return {
+        ...state,
+        assignedUsers: {
+          ...state.assignedUsers,
+          data: state.assignedUsers.data.filter(user => user._id !== action.payload.id),
         },
       };
     default:
