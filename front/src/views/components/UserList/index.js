@@ -75,7 +75,9 @@ const UserList = ({
           justifyCenter={!users.length}
           onScroll={e => handleScroll(e.target, title)}
         >
-          {!users.length && !isLoading && <Text center>No users were found...</Text>}
+          {!users.length && !isLoading && !searchIsLoading && (
+            <Text center>No users were found...</Text>
+          )}
           {!!users.length &&
             users.map(user => (
               <UserItem
@@ -86,7 +88,7 @@ const UserList = ({
                 selected={selectedUser._id === user._id}
               />
             ))}
-          {isLoading && (
+          {(isLoading || searchIsLoading) && (
             <LoaderWrapper>
               <Loader />
             </LoaderWrapper>
