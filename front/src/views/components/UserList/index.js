@@ -12,17 +12,7 @@ import SearchField from '../../commons/SearchField';
 
 const propTypes = {
   title: PropTypes.string,
-  users: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: {
-        first: PropTypes.string,
-        last: PropTypes.string,
-      },
-      picture: {
-        thumbnail: PropTypes.string,
-      },
-    }),
-  ),
+  users: PropTypes.arrayOf(PropTypes.shape()),
   selectUser: PropTypes.func.isRequired,
   selectedUser: PropTypes.shape({
     _id: PropTypes.string,

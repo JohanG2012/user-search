@@ -5,10 +5,7 @@ import Text from '../../commons/Text';
 import ItemWrapper from './ItemWrapper';
 
 const propTypes = {
-  user: PropTypes.shape({
-    name: { first: PropTypes.string, last: PropTypes.string },
-    picture: { thumbnail: PropTypes.string },
-  }).isRequired,
+  user: PropTypes.shape().isRequired,
   selected: PropTypes.bool.isRequired,
 };
 
