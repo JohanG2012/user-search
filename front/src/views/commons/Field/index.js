@@ -5,6 +5,10 @@ const Field = styled.input`
   width: 440px;
   margin: 10px 20px;
   padding-right: 30px;
+
+  ::-ms-clear {
+    display: none;
+  }
 `;
 
 export default Field;
