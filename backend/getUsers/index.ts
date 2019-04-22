@@ -86,8 +86,9 @@ const getUsers: AzureFunction = async (context: Context, req: HttpRequest): Prom
 
   await connect(
     DATABASE,
-    () => {
+    err => {
       context.res = DATABASE_CONNECTION_ERROR();
+      context.log(`Database connection error: ${err}`);
       context.done();
     },
   );

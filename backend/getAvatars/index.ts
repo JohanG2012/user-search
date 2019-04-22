@@ -50,6 +50,7 @@ const getAvatars: AzureFunction = async (context: Context, req: HttpRequest): Pr
     DATABASE,
     err => {
       context.res = DATABASE_CONNECTION_ERROR();
+      context.log(`Database connection error: ${err}`);
       context.done();
     },
   );

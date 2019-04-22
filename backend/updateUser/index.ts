@@ -57,8 +57,9 @@ const updateUser: AzureFunction = async (context: Context, req: HttpRequest): Pr
 
   await connect(
     DATABASE,
-    () => {
+    err => {
       context.res = DATABASE_CONNECTION_ERROR();
+      context.log(`Database connection error: ${err}`);
       context.done();
     },
   );
