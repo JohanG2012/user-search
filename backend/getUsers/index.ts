@@ -12,7 +12,7 @@ import { getRequestedFields, stripObjProps } from '../shared/utils/helpers';
 import User from '../shared/models/User';
 
 const DEFAULT_LIMIT = 50;
-const DATABASE = process.env.LOCAL_MONGODB_URI;
+const DATABASE = process.env.MONGODB_URI;
 
 /**
  *

@@ -2,7 +2,7 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions';
 import User from '../shared/models/User';
 import { DATABASE_CONNECTION_ERROR, INTERNAL_ERROR, OK } from '../shared/utils/responseTemplates';
 import { connect } from '../shared/models';
-const DATABASE = process.env.LOCAL_MONGODB_URI;
+import DATABASE from '../shared/configs/mongoUri';
 
 /**
  *

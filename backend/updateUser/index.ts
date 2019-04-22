@@ -11,7 +11,7 @@ import {
   DATABASE_CONNECTION_ERROR,
 } from '../shared/utils/responseTemplates';
 import { stripObjProps } from '../shared/utils/helpers';
-const DATABASE = process.env.LOCAL_MONGODB_URI;
+const DATABASE = process.env.MONGODB_URI;
 
 /**
  *
